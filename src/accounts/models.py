@@ -11,7 +11,8 @@ class UserAuthToken(BaseMixin):
     '''
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        primary_key=False
     )
 
     key = models.UUIDField(
