@@ -2,13 +2,15 @@ from uuid import UUID
 from typing import Union
 
 from accounts.models import UserAuthToken
-from ninja.security import HttpBearer
+from ninja.security import APIKeyHeader
 
 
-class AuthBearer(HttpBearer):
-    def authenticate(self, request, token: Union[UUID, str]):
+class APIKeyAuth(APIKeyHeader):
+    param_name = 'X-API-Key'
+
+    def authenticate(self, request, key: Union[UUID, str]):
         try:
-            auth_token = UserAuthToken.objects.get(key=token)
+            auth_token = UserAuthToken.objects.get(key=key)
         except Exception:
             # None-returns result in 401 unauthorized messages
             return None
