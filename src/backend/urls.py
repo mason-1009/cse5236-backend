@@ -21,7 +21,9 @@ from django.urls import path
 from ninja import NinjaAPI
 from accounts.api import router as accounts_router
 
-api = NinjaAPI()
+from backend.auth import AuthBearer
+
+api = NinjaAPI(auth=AuthBearer())
 
 api.add_router('/accounts/', accounts_router)
 
