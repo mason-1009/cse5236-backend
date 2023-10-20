@@ -28,7 +28,50 @@ def update_user_info(request, body: UpdateUserInfoSchema):
     '''
     Updates information about a user.
     '''
-    # TODO: Implement me
+    user = request.auth
+    changed_fields = []
+
+    if body.password:
+        # Passwords are hashed under the hood, so we need to
+        # update it separately
+        user.set_password(body.password)
+        changed_fields.append('password')
+
+    if body.first_name:
+        user.first_name = body.first_name
+        changed_fields.append('first_name')
+
+    if body.last_name:
+        user.last_name = body.last_name
+        changed_fields.append('last_name')
+
+    # Save changes to the currently authenticated user
+    user.save()
+
+    formatted_changes = ', '.join(changed_fields)
+    response = {
+        'success': True,
+        'detail': f'Successfully changed: {formatted_changes}'
+    }
+
+    return response
+
+
+@router.delete('/')
+def delete_user(request):
+    '''
+    Deletes the currently logged-in user and all sessions by
+    cascading deletes.
+    '''
+    username = request.auth.username
+    request.auth.delete()
+
+    response = {
+        'success': True,
+        'detail': f'Successfully deleted user {username}'
+    }
+
+    return response
 
 
 @router.post('/login', auth=None)
