@@ -9,9 +9,9 @@ class UserAuthToken(BaseMixin):
     '''
     Represents an auth token for a user; generated for each login attempt.
     '''
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
+    token_id = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
         primary_key=False
     )
 
@@ -20,6 +20,14 @@ class UserAuthToken(BaseMixin):
         editable=False,
         primary_key=True
     )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=False,
+        unique=False
+    )
+
 
 
 class UserInformation(BaseMixin):
