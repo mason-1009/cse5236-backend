@@ -5,15 +5,15 @@ class UserSchema(Schema):
     # Returns information about a user
     username: str
     email: str
-    first_name: str
-    last_name: str
+    firstname: str
+    lastname: str
 
 
 class UpdateUserInfoSchema(Schema):
     # All fields are optional
     password: str = None
-    first_name: str = None
-    last_name: str = None
+    firstname: str = None
+    lastname: str = None
 
 
 class UserLoginSchema(Schema):
@@ -26,7 +26,7 @@ class UserSignUpSchema(Schema):
     username: str
     password: str
     email: str
-    first_name: str
-    last_name: str
+    firstname: str
+    lastname: str
 
     # TODO: Additional fields for linked object

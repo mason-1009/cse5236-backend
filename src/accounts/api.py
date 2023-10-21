@@ -39,12 +39,12 @@ def update_user_info(request, body: UpdateUserInfoSchema):
         changed_fields.append('password')
 
     if body.first_name:
-        user.first_name = body.first_name
-        changed_fields.append('first_name')
+        user.first_name = body.firstname
+        changed_fields.append('firstname')
 
     if body.last_name:
-        user.last_name = body.last_name
-        changed_fields.append('last_name')
+        user.last_name = body.lastname
+        changed_fields.append('lastname')
 
     # Save changes to the currently authenticated user
     user.save()
@@ -94,7 +94,7 @@ def user_log_in(request, body: UserLoginSchema):
 
         response['success'] = True
         response['detail'] = 'Successfully logged in'
-        response['auth_token'] = str(token.key)
+        response['token'] = str(token.key)
 
     return response
 
