@@ -16,6 +16,11 @@ class UpdateUserInfoSchema(Schema):
     last_name: str = None
 
 
+class UserLoginSchema(Schema):
+    username: str
+    password: str
+
+
 class UserSignUpSchema(Schema):
     # Base Django user fields
     username: str
