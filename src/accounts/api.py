@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from accounts.schemas import (
     UserSchema,
     UpdateUserInfoSchema,
+    UserLoginSchema,
     UserSignUpSchema,
 )
 from accounts.models import UserAuthToken
@@ -75,12 +76,12 @@ def delete_user(request):
 
 
 @router.post('/login', auth=None)
-def user_log_in(request, username: str, password: str):
+def user_log_in(request, body: UserLoginSchema):
     '''
     Creates an authentication token for users to use in subsequent requests
     to identify themselves with the application.
     '''
-    user = authenticate(username=username, password=password)
+    user = authenticate(username=body.username, password=body.password)
 
     response = {}
 
