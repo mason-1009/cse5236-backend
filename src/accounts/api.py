@@ -108,8 +108,8 @@ def user_sign_up(request, body: UserSignUpSchema):
         username=body.username,
         password=body.password,
         email=body.email,
-        first_name=body.first_name,
-        last_name=body.last_name
+        first_name=body.firstname,
+        last_name=body.lastname
     )
 
     user.save()
