@@ -16,16 +16,39 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.core.exceptions import ValidationError
 
 # Import subapplication routers and create the master API
 from ninja import NinjaAPI
 from accounts.api import router as accounts_router
+from workouts.api import router as workouts_router
+from nutrition.api import router as nutrition_router
 
 from backend.auth import APIKeyAuth
+from backend.errors import NotSuperUserError
 
 api = NinjaAPI(auth=APIKeyAuth())
 
 api.add_router('/accounts/', accounts_router)
+api.add_router('/workouts/', workouts_router)
+api.add_router('/nutrition/', nutrition_router)
+
+# Define error handlers
+@api.exception_handler(ValidationError)
+def validation_error(request, exc):
+    return api.create_response(
+        request,
+        {'detail': str(exc)},
+        status=400
+    )
+
+@api.exception_handler(NotSuperUserError)
+def not_super_user_error(request, exc):
+    return api.create_response(
+        request,
+        {'detail': 'User needs to be superuser'},
+        status=401
+    )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
