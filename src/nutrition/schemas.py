@@ -2,17 +2,10 @@ from ninja import Schema, Field
 from typing import List
 
 
-class FoodCategorySchema(Schema):
-    category_id: int
-    code: str
-    name: str
-
-
 class FoodSchema(Schema):
     fdc_id: int
     data_type: str
     description: str
-    category_id: int
 
 
 class NutrientTypeSchema(Schema):
@@ -37,10 +30,6 @@ class FoodInformationSchema(Schema):
     data_type: str
     description: str
 
-    # Category information aliasing
-    category_code: str = Field(None, alias='category.code')
-    category_name: str = Field(None, alias='category.name')
-
     # Flattened and nested nutrition info
     nutrients: List[NutrientOutSchema]
 
@@ -49,6 +38,3 @@ class FoodSearchResult(Schema):
     fdc_id: int
     data_type: str
     description: str
-
-    # Alias flattening
-    category_name: str = Field(None, alias='category.name')

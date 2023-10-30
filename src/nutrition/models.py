@@ -1,31 +1,6 @@
 from django.db import models
 
 
-class FoodCategory(models.Model):
-    '''
-    Generic category of food type.
-    '''
-    category_id = models.IntegerField(
-        null=False,
-        blank=False,
-        unique=True,
-        primary_key=True
-    )
-
-    code = models.CharField(
-        max_length=12,
-        null=False,
-        blank=False,
-        unique=True
-    )
-
-    name = models.CharField(
-        max_length=128,
-        null=False,
-        blank=False
-    )
-
-
 class Food(models.Model):
     '''
     Represents a food.
@@ -47,13 +22,6 @@ class Food(models.Model):
         max_length=256,
         null=False,
         unique=False
-    )
-
-    category = models.ForeignKey(
-        FoodCategory,
-        null=True,
-        on_delete=models.CASCADE,
-        related_name='foods'
     )
 
 

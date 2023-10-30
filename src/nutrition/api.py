@@ -3,13 +3,11 @@ from django.shortcuts import get_object_or_404
 from typing import List
 
 from nutrition.models import (
-    FoodCategory,
     Food,
     NutrientType,
     FoodNutrient,
 )
 from nutrition.schemas import (
-    FoodCategorySchema,
     FoodSchema,
     NutrientTypeSchema,
     FoodNutrientSchema,
@@ -49,22 +47,6 @@ def get_food_information(request, fdc_id: int):
     )
     return food
 
-# Create superuser endpoints
-@router.post('/admin/category', response=FoodCategorySchema)
-def create_food_category(request, body: FoodCategorySchema):
-    '''
-    Endpoint to create a food category.
-    '''
-    if not request.auth.is_superuser:
-        raise NotSuperUserError()
-
-    category = FoodCategory.objects.create(
-        category_id=body.category_id,
-        code=body.code,
-        name=body.name
-    )
-    return category
-
 @router.post('/admin/food', response=FoodSchema)
 def create_food(request, body: FoodSchema):
     '''
@@ -73,19 +55,10 @@ def create_food(request, body: FoodSchema):
     if not request.auth.is_superuser:
         raise NotSuperUserError()
 
-    try:
-        category = Food.objects.get(
-            FoodCategory,
-            category_id=body.category_id
-        )
-    except Exception as e:
-        category = None
-
     food = Food.objects.create(
         fdc_id=body.fdc_id,
         data_type=body.data_type,
-        description=body.description,
-        category=category
+        description=body.description
     )
     return food
 
