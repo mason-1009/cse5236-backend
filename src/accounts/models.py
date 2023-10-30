@@ -1,8 +1,10 @@
 import uuid
 
 from django.db import models
-from backend.models import BaseMixin
+from backend.models import BaseMixin, UUIDMixin
 from django.contrib.auth.models import User
+
+from django.utils.translation import gettext_lazy as _gt
 
 
 class UserAuthToken(BaseMixin):
@@ -39,4 +41,26 @@ class UserInformation(BaseMixin):
         User,
         on_delete=models.CASCADE,
         primary_key=True
+    )
+
+    age = models.PositiveIntegerField(
+        null=False
+    )
+
+    height_in_inches = models.PositiveIntegerField(
+        null=False
+    )
+
+    class SexChoices(models.TextChoices):
+        MALE = 'male', _gt('Male')
+        FEMALE = 'female', _gt('Female')
+
+    sex = models.CharField(
+        max_length=36,
+        choices=SexChoices.choices
+    )
+
+    starting_weight_pounds = models.PositiveIntegerField(
+        blank=False,
+        null=False
     )
