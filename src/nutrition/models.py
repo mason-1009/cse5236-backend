@@ -51,6 +51,7 @@ class Food(models.Model):
 
     category = models.ForeignKey(
         FoodCategory,
+        null=True,
         on_delete=models.CASCADE,
         related_name='foods'
     )

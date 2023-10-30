@@ -73,10 +73,14 @@ def create_food(request, body: FoodSchema):
     if not request.auth.is_superuser:
         raise NotSuperUserError()
 
-    category = get_object_or_404(
-        FoodCategory,
-        category_id=body.category_id
-    )
+    try:
+        category = Food.objects.get(
+            FoodCategory,
+            category_id=body.category_id
+        )
+    except Exception as e:
+        category = None
+
     food = Food.objects.create(
         fdc_id=body.fdc_id,
         data_type=body.data_type,
