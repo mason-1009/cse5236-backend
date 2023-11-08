@@ -1,12 +1,12 @@
-from ninja import Schema
+from ninja import Schema, Field
 
 
 class UserSchema(Schema):
     # Returns information about a user
     username: str
     email: str
-    firstname: str
-    lastname: str
+    firstname: str = Field(..., alias='first_name')
+    lastname: str = Field(..., alias='last_name')
 
 
 class UpdateUserInfoSchema(Schema):
