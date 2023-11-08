@@ -29,8 +29,11 @@ def search_food(request, keyword: str):
     '''
     Searches for a keyword and returns the serialized results.
     '''
+    RESULT_LIMIT = 30
     results = Food.objects.filter(description__icontains=keyword)
-    return results
+
+    # Limit results to 30
+    return results[0:RESULT_LIMIT]
 
 @router.get(
     '/{fdc_id}',
