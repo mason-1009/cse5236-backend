@@ -38,11 +38,11 @@ def update_user_info(request, body: UpdateUserInfoSchema):
         user.set_password(body.password)
         changed_fields.append('password')
 
-    if body.first_name:
+    if body.firstname:
         user.first_name = body.firstname
         changed_fields.append('firstname')
 
-    if body.last_name:
+    if body.lastname:
         user.last_name = body.lastname
         changed_fields.append('lastname')
 
