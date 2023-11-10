@@ -1,5 +1,7 @@
 from ninja import Schema, Field
 from typing import List
+from uuid import UUID
+from datetime import datetime
 
 
 class FoodSchema(Schema):
@@ -38,3 +40,15 @@ class FoodSearchResult(Schema):
     fdc_id: int
     data_type: str
     description: str
+
+
+class BaseMealSchema(Schema):
+    calories: int
+    protein_grams: int
+    carbs_grams: int
+    fat_grams: int
+
+
+class MealOutSchema(BaseMealSchema):
+    uuid: UUID
+    created: datetime

@@ -33,7 +33,6 @@ api.add_router('/accounts/', accounts_router)
 api.add_router('/workouts/', workouts_router)
 api.add_router('/nutrition/', nutrition_router)
 
-# Define error handlers
 @api.exception_handler(ValidationError)
 def validation_error(request, exc):
     return api.create_response(

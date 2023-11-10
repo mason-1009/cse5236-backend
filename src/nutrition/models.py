@@ -1,4 +1,7 @@
+from backend.models import BaseMixin, UUIDMixin
 from django.db import models
+
+from django.contrib.auth.models import User
 
 
 class Food(models.Model):
@@ -71,4 +74,35 @@ class FoodNutrient(models.Model):
         decimal_places=2,
         blank=False,
         null=False
+    )
+
+
+class Meal(UUIDMixin, BaseMixin):
+    '''
+    Represents a recorded meal for a user.
+    '''
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='meals'
+    )
+
+    calories = models.PositiveIntegerField(
+        null=False,
+        default=0
+    )
+
+    protein_grams = models.PositiveIntegerField(
+        null=False,
+        default=0
+    )
+
+    carbs_grams = models.PositiveIntegerField(
+        null=False,
+        default=0
+    )
+
+    fat_grams = models.PositiveIntegerField(
+        null=False,
+        default=0
     )

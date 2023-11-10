@@ -1,6 +1,9 @@
 from ninja import Router
 from typing import List
 import logging
+import uuid
+
+from django.shortcuts import get_object_or_404
 
 from workouts.models import Workout
 from workouts.schemas import (
@@ -37,3 +40,18 @@ def record_user_workout(request, body: BaseWorkoutSchema):
         start_datetime=body.start_datetime
     )
     return workout
+
+@router.delete('/{workout_uuid}')
+def delete_user_workout(request, workout_uuid: uuid.UUID):
+    '''
+    Deletes a workout for a user.
+    '''
+    user = request.auth
+    workout = get_object_or_404(Workout, uuid=workout_uuid)
+    
+    try:
+        workout.delete()
+    except Exception as e:
+        return { 'success': False, 'detail': str(e) }
+
+    return { 'success': True, 'detail': 'Workout deleted' }
