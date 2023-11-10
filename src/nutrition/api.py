@@ -41,7 +41,7 @@ def search_food(request, keyword: str):
     return results[0:RESULT_LIMIT]
 
 @router.get(
-    '/foods{fdc_id}',
+    '/foods/{fdc_id}',
     response=FoodInformationSchema,
     auth=None
 )
