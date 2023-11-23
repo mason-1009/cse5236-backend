@@ -34,12 +34,17 @@ def get_daily_workouts(request):
     response = {
         'calories_burned': 0,
         'duration_minutes': 0,
-        'distance_miles': 0
+        'distance_miles': 0,
+        'avg_heart_rate': 0,
+        'max_heart_rate': 0
     }
 
     # Query workouts logged today
     today = timezone.now().replace(hour=0, minute=0, second=0)
     workouts_today = Workout.objects.filter(created__gte=today)
+
+    if workouts_today.count() == 0:
+        return response
 
     avg_heart_rate = statistics.mean(
         workouts_today.values_list('avg_heart_rate', flat=True)
