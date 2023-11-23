@@ -46,13 +46,13 @@ def get_daily_workouts(request):
     if workouts_today.count() == 0:
         return response
 
-    avg_heart_rate = statistics.mean(
+    avg_heart_rate = int(statistics.mean(
         workouts_today.values_list('avg_heart_rate', flat=True)
-    )
+    ))
     
-    max_heart_rate = max(
+    max_heart_rate = int(max(
         workouts_today.values_list('max_heart_rate', flat=True)
-    )
+    ))
 
     for workout in workouts_today:
         response['duration_minutes'] += workout.duration_minutes
