@@ -64,22 +64,26 @@ def get_daily_workouts(request):
 
     return response
 
-@router.post('/', response=WorkoutOutSchema)
+@router.post('/')
 def record_user_workout(request, body: BaseWorkoutSchema):
     '''
     Records a new workout for a user.
     '''
-    user = request.auth
-    workout = Workout.objects.create(
-        user=user,
-        workout_type=body.workout_type,
-        duration_minutes=body.duration_minutes,
-        distance_miles=body.distance_miles,
-        calories_burned=body.calories_burned,
-        avg_heart_rate=body.avg_heart_rate,
-        max_heart_rate=body.max_heart_rate,
-    )
-    return workout
+    try:
+        user = request.auth
+        workout = Workout.objects.create(
+            user=user,
+            workout_type=body.workout_type,
+            duration_minutes=body.duration_minutes,
+            distance_miles=body.distance_miles,
+            calories_burned=body.calories_burned,
+            avg_heart_rate=body.avg_heart_rate,
+            max_heart_rate=body.max_heart_rate,
+        )
+    except Exception as e:
+        return { 'success': False, 'detail': str(e) }
+
+    return { 'success': True, 'detail': 'Workout created!' }
 
 @router.delete('/{workout_uuid}')
 def delete_user_workout(request, workout_uuid: uuid.UUID):
