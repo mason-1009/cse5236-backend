@@ -35,7 +35,7 @@ class Workout(UUIDMixin, BaseMixin):
         default=WorkoutChoices.OTHER
     )
 
-    duration = models.DurationField(
+    duration_minutes = models.PositiveIntegerField(
         null=True,
         blank=False
     )
@@ -57,11 +57,6 @@ class Workout(UUIDMixin, BaseMixin):
 
     max_heart_rate = models.PositiveIntegerField(
         null=True,
-        blank=False
-    )
-
-    start_datetime = models.DateTimeField(
-        null=False,
         blank=False
     )
 
